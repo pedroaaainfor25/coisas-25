@@ -1,0 +1,141 @@
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/enchant/0.8.3/enchant.min.js"></script>
+</head>
+<body>
+  <div id="enchant-stage"></div>
+  <script>
+    // Iniciar o enchant.js
+    enchant();
+
+    // Criar uma variável para guardar o jogo
+    var game = new Game(320, 320);
+
+    // Carregar as imagens do jogo
+    game.preload("chara1.png", "map0.png", "icon0.png");
+
+    // Definir o que acontece quando o jogo é iniciado
+    game.onload = function() {
+      // Criar um mapa com base em uma imagem
+      var map = new Map(16, 16);
+      map.image = game.assets["map0.png"];
+      map.loadData([
+        [ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 3],
+        [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+        [ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+      ]);
+      // Adicionar o mapa à cena do jogo
+      game.rootScene.addChild(map);
+
+      // Criar um personagem com base em uma imagem
+      var player = new Sprite(32, 32);
+      player.image = game.assets["chara1.png"];
+      player.x = 16;
+      player.y = 16;
+      player.frame = 7;
+      // Adicionar o personagem à cena do jogo
+      game.rootScene.addChild(player);
+
+      // Definir o que acontece quando o personagem é movido
+      player.onenterframe = function() {
+        // Verificar se o personagem está colidindo com algum inimigo
+        var enemies = game.rootScene.childNodes.filter(function(node) {
+          return node instanceof Enemy;
+        });
+        for (var i = 0; i < enemies.length; i++) {
+          if (this.intersect(enemies[i])) {
+            // Fim de jogo
+            game.end();
+          }
+        }
+        // Verificar se o personagem está colidindo com alguma moeda
+        var coins = game.rootScene.childNodes.filter(function(node) {
+          return node instanceof Coin;
+        });
+        for (var i = 0; i < coins.length; i++) {
+          if (this.intersect(coins[i])) {
+            // Remover a moeda da cena
+            game.rootScene.removeChild(coins[i]);
+            // Verificar se todas as moedas foram coletadas
+            if (coins.length == 1) {
+              // Fim de jogo
+              game.end();
+            }
+          }
+        }
+        // Verificar se alguma tecla está sendo pressionada
+        if (game.input.left) {
+          // Mover o personagem para a esquerda
+          this.x -= 4;
+          this.frame = 5;
+        }
+        if (game.input.right) {
+          // Mover o personagem para a direita
+          this.x += 4;
+          this.frame = 7;
+        }
+        if (game.input.up) {
+          // Mover o personagem para cima
+          this.y -= 4;
+          this.frame = 6;
+        }
+        if (game.input.down) {
+          // Mover o personagem para baixo
+          this.y += 4;
+          this.frame = 8;
+        }
+        // Impedir que o personagem saia dos limites do mapa
+        if (this.x < 0) {
+          this.x = 0;
+        }
+        if (this.x > game.width - this.width) {
+          this.x = game.width - this.width;
+        }
+        if (this.y < 0) {
+          this.y = 0;
+        }
+        if (this.y > game.height - this.height) {
+          this.y = game.height - this.height;
+        }
+      };
+
+      // Criar uma classe para os inimigos
+      var Enemy = Class.create(Sprite, {
+        initialize: function(x, y) {
+          // Chamar o construtor da classe pai
+          Sprite.call(this, 32, 32);
+          this.image = game.assets["chara1.png"];
+          this.x = x;
+          this.y = y;
+          this.frame = 10;
+          this.direction = 1;
+          this.speed = 2;
+          // Adicionar o inimigo à cena do jogo
+          game.rootScene.addChild(this);
+        },
+        onenterframe: function() {
+          // Mover o inimigo de acordo com a sua direção
+          this.x += this.speed * this.direction;
+          // Inverter a direção se o inimigo atingir os limites do mapa
+          if (this.x < 0 || this.x > game.width - this.width) {
+            this.direction *= -1;
+          }
+        }
+      });
+
+      // Criar uma classe para as moedas
+      var Coin = Class.create(Sprite, {
+        initialize: function
