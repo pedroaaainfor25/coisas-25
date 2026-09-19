@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,900');
+* {box-sizing:border-box;
+	font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+
+h1 {
+	font-family: "Roboto", Arial, Helvetica, sans-serif;
+	font-weight: 900;
+	font-size: 70px;
+	text-align: center;
+	margin: 90px 0 20px;
+	color: #ab34eb;
+	border: 2px solid purple;
+}
+
+body {
+	padding: 0px 0 60px 0;
+}
+
+/* Div que envolve os slides */
+.caixa-slideshow {
+	max-width: 1000px;
+	position: relative;
+	margin: auto;
+	 width: 50%;
+	align:left;
+}
+
+/* Exibe as imagens e alinha à esquerda */
+.meus-slides {
+   display: flex;
+  flex-direction: row; /* Define a direção dos itens como linha */
+  justify-content: flex-start; /* Alinha os itens para o início da linha (esquerda) */
+  
+}
+
+/* Contêiner dos slides */
+.container {
+    position: relative;
+}
+
+/* Botões de próximo e anterior */
+.anterior,
+.proximo {
+	cursor: pointer;
+	position: absolute;
+	background-color: rgba(0,0,0,0.3);
+	top: 50%;
+	width: auto;
+	margin-top: -22px;
+	padding: 16px;
+	color: white;
+	font-weight: bold;
+	font-size: 18px;
+	transition: 0.6s ease;
+	border-radius: 0 3px 3px 0;
+	transform: translateY(-50%);
+}
+
+/* Posicionando o botão 'próximo' à direita */
+.proximo {
+	right: 0;
+	border-radius: 3px 0 0 3px;
+}
+
+/* Preencher o background dos botões com a cor preta no hover */
+.anterior:hover,
+.proximo:hover {
+	background-color: rgba(0,0,0,0.8);
+}
+
+/* Elemento que envolve o número do slide */
+.numero-imagem {
+	color: #f2f2f2;
+	font-size: 12px;
+	padding: 8px 12px;
+	position: absolute;
+	top: 0;
+}
+
+/* Pontos indicadores de slides */
+.ponto-indicador-slide {
+	cursor: pointer;
+	height: 15px;
+	width: 15px;
+	margin: 0 2px;
+	background-color: #bbb;
+	border-radius: 50%;
+	display: inline-block;
+	transition: background-color 0.6s ease;
+}
+
+/* Mudando o background color no hover ou quando ativo */
+.ativo, .ponto-indicador-slide:hover {
+	background-color: #717171;
+}
+
+/* Efeito suave para troca de slide */
+.fade {
+	-webkit-animation-name: fade;
+	-webkit-animation-duration: 1.5s;
+	animation-name: fade;
+	animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+	from {opacity: .4} 
+	to {opacity: 1}
+}
+
+@keyframes fade {
+	from {opacity: .4} 
+	to {opacity: 1}
+}
+
+
+@-webkit-keyframes fade {
+	from {opacity: .4} 
+	to {opacity: 1}
+}
+
+@keyframes fade {
+	from {opacity: .4} 
+	to {opacity: 1}
+}
+
+
+
+
+  .slide {
+            width: 100%;
+            height: 10px; /* Ajuste a altura conforme necessário */
+            background-color: #ddd; /* Apenas para visualização */
+            margin: 0;
+            padding: 0;
+        }
+        .product-box {
+            border: 1px solid #ccc;
+            padding: 16px;
+            text-align: center;
+            width: 300px;
+            margin: 0 auto;
+        }
+        .product-box img {
+            width: 100%;
+            height: auto;
+        }
+        .product-box h2 {
+            font-size: 24px;
+            margin: 16px 0;
+        }
+        .product-box p {
+            font-size: 18px;
+            color: #555;
+        }
+        .product-box button {
+            background-color: #7d34eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .product-box button:hover {
+            background-color: #7d34eb;
+        }
+		
+		
+	}
+				
+		
+		.container {
+    background-color #f2f2f2;
+    padding: 20px;
+    width: 50%;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2em;
+    border-box: solid ;
+}
+
+p {
+    line-height: 1.5;
+}
